@@ -13,14 +13,15 @@ var scoreBoard = document.getElementById("scoreBoard");
 var prompts = document.getElementById("prompts");
 var choices = document.querySelector("#choices");
 
-
+var currentQuestionIndex = 0;
+var currentQuestion = questions[currentQuestionIndex];
 
 
 var questions = [
   {
     prompt: "Which of the following keywords is used to define a variable in Javascript?",
     answers: ["var","let","Both A and B","None of the above"],
-    correctAnswer: "c",
+    correctAnswer: 2, //Change to the index of the correct answer
   },  
   {
     prompt: "Which of the following methods is used to access HTML elements using Javascript?",
@@ -63,19 +64,28 @@ start.addEventListener("click", function(event) {
 
 function initQuestions(){
 
-  for(i = 0; i < questions.length; i++){
-    prompts.textContent = questions[i].prompt; 
-    
+  prompts.textContent = currentQuestion.prompt;
+  for(i = 0; i < currentQuestion.answers.length; i++){
     var li = document.createElement("li");
     var button = document.createElement("button");
-    button.textContent = questions[i].answers[i];
+    button.setAttribute("data-choice", i);
+    button.textContent = currentQuestion.answers[i];
     
     li.appendChild(button);
     choices.appendChild(li);
-    
   }
  
 } 
+
+//On button click check if 
+// data-choice attribute value == currentQuestion.correctAnswer
+// Then, run logic for correct answer
+// TO LOAD NEXT QUESTION DO AS BELOW.
+// Change to next question by updating 
+// currentQuestionIndex to be currentQuestionIndex + 1
+// making sure currentQuestionIndex + 1 < questions.length
+// Run currentQuestion = questions[currentQuestionIndex];
+// call initQuestions()
 
 
 
