@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Asssets /css/style.css">
+    <title>QUIZ</title>
+</head>
+<body>
+    <header>
+        <div class = "highscores" >View Highscores</div>
+        <div class = "timer" >Time: 0</div>
+    </header>
+
+    <main>
+    
+        <!--Start-->
+        <div id = "start" class = "container visible">
+            <h1>Coding Quiz Challange</h1>
+            <p>Answer the following questions within the time limit. 
+                Incorrect answers will penalize your score/time by 15 seconds!</p>
+            <button id = " startBtn" class = "button" > Start </button>
+        </div>
+
+        <!--Questions-->
+        <div id = "question" class = "container hide">
+            <h2 id = "prompts"> Question</h2>
+            <ol id = "choices"></ol>
+        </div>
+
+        <!--Correct/Wrong-->
+        <div  class = "container hide" id = "rightWrong" >
+            <h3>Right!</h3>
+        </div>
+
+        <!--Identification-->
+        <div  id = "finalScore" class = "container hide">
+            <h2>You are Done!</h2>
+            <h3>final Score</h3>
+            <label for = "fname" >Enter Name:</label>
+            <input type = "text" ></input>
+            <button  class = "button" type ="submit">Submit</button>
+        </div>
+
+        <!--Score Board-->
+        <div  id = "scoreBoard" class = "container hide">
+            <h2>High Scores</h2>
+            <ol></ol>
+            <button class = "button" >Go Back</button>
+            <button class = "button" >Clear Highscores</button>
+        </div>
+
+    </main>
+
+    <script src="Asssets /js/script.js"></script>
+</body>
+
+</html>
