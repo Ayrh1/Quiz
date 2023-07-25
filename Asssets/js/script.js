@@ -68,6 +68,7 @@ var questions = [
 ]
 
 start.addEventListener("click", function(event) {
+  
   var element = event.target;
   if (element.matches("button") === true) { 
     start.classList.add('hide');
@@ -75,13 +76,21 @@ start.addEventListener("click", function(event) {
     question.classList.add('visible');
     question.classList.remove('hide');
     initQuestions()
+    choices.addEventListener("click", function(event) {
+      event.stopPropagation();
+      var element = event.target;
+      var index = element.getAttribute("data-choice");
+      
+      checkAnswer(index); 
+     
+    });
   }
 });
 
 function initQuestions(){
 
   questionStatus.classList.add('hide');
-    questionStatus.classList.remove('visible');
+  questionStatus.classList.remove('visible');
   var currentQuestion = questions[currentQuestionIndex];
   var trueAnswer =  currentQuestion.correctAnswer; 
   choices.innerHTML ='';
@@ -97,21 +106,13 @@ function initQuestions(){
     li.appendChild(button);
     choices.appendChild(li);
   }
- 
-  choices.addEventListener("click", function(event) {
-
-    var element = event.target;
-    var index = element.getAttribute("data-choice");
-    
-    checkAnswer(index,trueAnswer); 
-   
-  });
   currentQuestionIndex++;
 
 }  
 
-function checkAnswer(index,trueAnswer) {
-  
+function checkAnswer(index) {
+  var currentQuestion = questions[currentQuestionIndex];
+  var trueAnswer =  currentQuestion.correctAnswer; 
   if(index === trueAnswer){
     var right = document.createElement("p");
     questionStatus.innerHTML = '';
@@ -131,7 +132,7 @@ function checkAnswer(index,trueAnswer) {
     questionStatus.classList.add('visible');
     questionStatus.classList.remove('hide');
   }
-  setTimeout(function () {
+  var timeout = setTimeout(function () {
    
     if (currentQuestionIndex < questions.length) {
 
@@ -148,6 +149,7 @@ function checkAnswer(index,trueAnswer) {
     }
     
     right.classList.add('hide');
+    clearInterval(timeout);
 
   }, 600);
 }
