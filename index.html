@@ -7,8 +7,8 @@
     <title>QUIZ</title>
 </head>
 <body>
-    <header>
-        <div class = "highscores" >View Highscores</div>
+    <header id = "viewscores">
+        <div  >View Highscores</div>
         <div class = "timer" >Time: 0</div>
     </header>
 
@@ -19,32 +19,26 @@
             <h1>Coding Quiz Challange</h1>
             <p>Answer the following questions within the time limit. 
                 Incorrect answers will penalize your score/time by 15 seconds!</p>
-            <button id = " startBtn" class = "button" > Start </button>
+            <button class = "button starBtn" > Start Quiz</button>
         </div>
 
         <!--Questions-->
-        <div id = "question" class = "container hide">
+        <div  id = "question" class = "container hide">
             <h2 id = "prompts"> Question</h2>
             <ol id = "choices"></ol>
         </div>
 
-        <!--Correct/Wrong-->
-        <div  class = "container hide" id = "rightWrong" >
-            <h3>Right!</h3>
-        </div>
-
-        <!--Identification-->
-        <div  id = "finalScore" class = "container hide">
+        <div id = "finalScore" class = "container hide">
             <h2>You are Done!</h2>
-            <h3>final Score</h3>
-            <label for = "fname" >Enter Name:</label>
-            <input type = "text" ></input>
-            <button  class = "button" type ="submit">Submit</button>
+            <h3 id = "scoreDisplay"></h3>
+            <label class="text-right" for="name">Name:</label>
+            <input type="text" id="name" name="user-name">
+            <button  id="save" class = "button" type ="submit" >Submit</button>
         </div>
 
         <!--Score Board-->
-        <div  id = "scoreBoard" class = "container hide">
-            <h2>High Scores</h2>
+        <div id = "scoreBoard" class = "container hide">
+            <h2 class = "scoreDisplay" >High Scores</h2>
             <ol></ol>
             <button class = "button" >Go Back</button>
             <button class = "button" >Clear Highscores</button>

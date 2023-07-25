@@ -17,7 +17,7 @@ header {
 .container {
     text-align: center;
     margin: auto; /* This marging and width combination centered all the div's*/
-    width: 40%;      
+    width: 50%;      
 }
 
 .button {

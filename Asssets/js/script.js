@@ -1,71 +1,91 @@
-/*
-1. First div appears on the browser
-2. click start btn
-    -div disapears
-    -dive with questions apear 
-
-*/
 
 var start = document.getElementById("start");
 var question = document.getElementById("question");
+var rightWrong = document.getElementById("rightWrong");
+var verification = document.getElementById("verification");
 var finalScore = document.getElementById("finalScore");
 var scoreBoard = document.getElementById("scoreBoard");
 var prompts = document.getElementById("prompts");
 var choices = document.querySelector("#choices");
+var scoreDisplay = document.getElementById("scoreDisplay");
+var save = document.getElementById("save");
 
-var currentQuestionIndex = 0;
-var currentQuestion = questions[currentQuestionIndex];
-
-
+var currentQuestionIndex = 0;  // --> we create and set an ITERATOR
+var score = 0;
+ 
 var questions = [
   {
-    prompt: "Which of the following keywords is used to define a variable in Javascript?",
+    prompt: "1.Which of the following keywords is used to define a variable in Javascript?",
     answers: ["var","let","Both A and B","None of the above"],
-    correctAnswer: 2, //Change to the index of the correct answer
+    correctAnswer: "2",
   },  
   {
-    prompt: "Which of the following methods is used to access HTML elements using Javascript?",
+    prompt: "2.Which of the following methods is used to access HTML elements using Javascript?",
     answers: ["getElementbyId()","getElementByClassName()","Both A and B","None of the above"],
-    correctAnswer: "c",
+    correctAnswer: "2",
   },
   {
-    prompt: "Which of the following methods can be used to display data in some form using Javascript?",
+    prompt: "3.Which of the following methods can be used to display data in some form using Javascript?",
     answers: ["document.write()","console.log()","window.alert()","All of the above"],
-    correctAnswer: "d",
+    correctAnswer: "3",
   },
   {
-    prompt: "Which function is used to serialize an object into a JSON string in Javascript?",
+    prompt: "4.Which function is used to serialize an object into a JSON string in Javascript?",
     answers: ["stringify","parse()","convert()","None of the above"],
-    correctAnswer: "a",
+    correctAnswer: "0",
   },
   {
-    prompt: "How do we write a comment in javascript?",
+    prompt: "5.How do we write a comment in javascript?",
     answers: ["<!-","//","#","$$"],
-    correctAnswer: "b",
+    correctAnswer: "1",
   },
   {
-    prompt: "Which of the following is not a Javascript framework?",
+    prompt: "6.Which of the following is not a Javascript framework?",
     answers: ["Node","Vue","React","Cassandra"],
-    correctAnswer: "d",
+    correctAnswer: "3",
   },
+  {
+    prompt: "7.Which of the following is not a Javascript framework?",
+    answers: ["Node","Vue","React","Cassandra"],
+    correctAnswer: "3",
+  },
+  {
+    prompt: "8.Which of the following is not a Javascript framework?",
+    answers: ["Node","Vue","React","Cassandra"],
+    correctAnswer: "3",
+  },
+  {
+    prompt: "9.Which of the following is not a Javascript framework?",
+    answers: ["Node","Vue","React","Cassandra"],
+    correctAnswer: "3",
+  },
+  {
+    prompt: "10.Which of the following is not a Javascript framework?",
+    answers: ["Node","Vue","React","Cassandra"],
+    correctAnswer: "3",
+  }
 ]
 
 start.addEventListener("click", function(event) {
-    var element = event.target;
-    if (element.matches("button") === true) { 
-      start.classList.add('hide');
-      start.classList.remove('visible');
-      question.classList.add('visible');
-      question.classList.remove('hide');
-      initQuestions()
-    }
-  
+  var element = event.target;
+  if (element.matches("button") === true) { 
+    start.classList.add('hide');
+    start.classList.remove('visible');
+    question.classList.add('visible');
+    question.classList.remove('hide');
+    initQuestions()
+  }
 });
 
 function initQuestions(){
 
-  prompts.textContent = currentQuestion.prompt;
-  for(i = 0; i < currentQuestion.answers.length; i++){
+  var currentQuestion = questions[currentQuestionIndex];
+  var trueAnswer =  currentQuestion.correctAnswer; 
+  choices.innerHTML ='';
+  console.log(currentQuestionIndex);
+
+  prompts.textContent = currentQuestion.prompt;  
+  for(let i = 0; i < currentQuestion.answers.length; i++){
     var li = document.createElement("li");
     var button = document.createElement("button");
     button.setAttribute("data-choice", i);
@@ -75,20 +95,82 @@ function initQuestions(){
     choices.appendChild(li);
   }
  
-} 
+  choices.addEventListener("click", function(event) {
 
-//On button click check if 
-// data-choice attribute value == currentQuestion.correctAnswer
-// Then, run logic for correct answer
-// TO LOAD NEXT QUESTION DO AS BELOW.
-// Change to next question by updating 
-// currentQuestionIndex to be currentQuestionIndex + 1
-// making sure currentQuestionIndex + 1 < questions.length
-// Run currentQuestion = questions[currentQuestionIndex];
-// call initQuestions()
+    var element = event.target;
+    var index = element.getAttribute("data-choice");
+    
+    checkAnswer(index,trueAnswer); 
+   
+  });
+  currentQuestionIndex++;
+
+}  
+
+function checkAnswer(index,trueAnswer) {
+  
+  if(index === trueAnswer){
+    var right = document.createElement("p");
+    question.appendChild(right);
+    right.setAttribute('id','rightWrong');
+    right.textContent = "Right!";
+    score++;
+    
+  }else if(index !== trueAnswer){
+    var right = document.createElement("p");
+    question.appendChild(right);
+    right.setAttribute('id','rightWrong');
+    right.textContent = "Wrong!";
+    
+  }
+  setTimeout(function () {
+   
+    if (currentQuestionIndex < questions.length) {
+
+      initQuestions();
+
+    } else {
+     
+      question.classList.add('hide');
+      question.classList.remove('visible');
+      finalScore.classList.add('visible');
+      finalScore.classList.remove('hide');
+      finalScores(score);
+
+    }
+    
+    right.classList.add('hide');
+
+  }, 600);
+}
+
+function finalScores(score){
+// display score on div 
+ var quizScore = score; 
+  scoreDisplay.textContent = "Final Score: " + quizScore;
+
+}
+
+save.addEventListener("click", function(event) {
+  event.preventDefault();
+  var name = document.querySelector("#name").value;
+  /*
+  if (name === "") {
+    prompt("error", "Name cannot be blank");
+  
+  } else {
+    displayMessage("success", "Registered successfully");
+
+    localStorage.setItem("Name", name);
+    localStorage.setItem("Score", quizScore);
+   
+  }
+  */
+});
 
 
 
+//notes
 
 /*
 question.addEventListener("click", function(event) {
@@ -243,3 +325,74 @@ var questions = [
   },
 ]
 */
+
+/* tutor
+
+function initQuestions(){
+  // let's run some validation (global loop conditional statement)
+  if(currentQuestionIndex >= questions.length - 1) {
+    // run some exit code --> we show the form for initials/user input
+  }
+
+  // update the curretQuestion
+  var currentQuestion = questions[currentQuestionIndex]; // here we are taking a look at EACH OBJECT in our ARRAY
+
+  prompts.textContent = currentQuestion.prompt;  // currentQuestion = questions[currentQuestionIndex]
+  for(let i = 0; i < currentQuestion.answers.length; i++){
+    var li = document.createElement("li");
+    var button = document.createElement("button");
+    button.setAttribute("data-choice", i);
+    button.textContent = currentQuestion.answers[i];
+    
+    li.appendChild(button);
+    choices.appendChild(li);
+  }
+ 
+
+} 
+
+
+
+
+  console.log(currentQuestion);
+  currentQuestionIndex = currentQuestionIndex + 1;   // 
+  console.log(currentQuestion);
+  if(currentQuestionIndex >= questions.length - 1) {
+    // exit logic code ...
+  } else {
+    // we continue with our code ....
+  }
+
+  //        iterator |   conditional statement  |  iterator update setatement
+  for(let iterator = 0; iterator < questions.length; iterator++) {
+    // code that runs in the loop
+    console.log(questions[iterator])
+  }
+
+
+
+
+
+  // let's run some validation (global loop conditional statement)
+  if(currentQuestionIndex >= questions.length - 1) {
+    start.classList.add('hide');
+    start.classList.remove('visible');
+    question.classList.add('visible');
+    question.classList.remove('hide');
+  }
+
+
+ choices.innerHTML ='';
+
+
+  // let's run some validation (global loop conditional statement)
+ if(currentQuestionIndex >= questions.length - 1) {
+  question.classList.add('hide');
+  question.classList.remove('visible');
+
+  finalScore.classList.add('visible');
+  finalScore.classList.remove('hide');
+}
+
+*/
+
