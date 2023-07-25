@@ -8,6 +8,7 @@ var scoreBoard = document.getElementById("scoreBoard");
 var prompts = document.getElementById("prompts");
 var choices = document.querySelector("#choices");
 var scoreDisplay = document.getElementById("scoreDisplay");
+var questionStatus = document.getElementById("questionStatus");
 var save = document.getElementById("save");
 
 var currentQuestionIndex = 0;  // --> we create and set an ITERATOR
@@ -79,6 +80,8 @@ start.addEventListener("click", function(event) {
 
 function initQuestions(){
 
+  questionStatus.classList.add('hide');
+    questionStatus.classList.remove('visible');
   var currentQuestion = questions[currentQuestionIndex];
   var trueAnswer =  currentQuestion.correctAnswer; 
   choices.innerHTML ='';
@@ -111,17 +114,22 @@ function checkAnswer(index,trueAnswer) {
   
   if(index === trueAnswer){
     var right = document.createElement("p");
-    question.appendChild(right);
+    questionStatus.innerHTML = '';
+    questionStatus.appendChild(right);
     right.setAttribute('id','rightWrong');
     right.textContent = "Right!";
+    questionStatus.classList.add('visible');
+    questionStatus.classList.remove('hide');
     score++;
     
   }else if(index !== trueAnswer){
     var right = document.createElement("p");
-    question.appendChild(right);
+    questionStatus.innerHTML = '';
+    questionStatus.appendChild(right);
     right.setAttribute('id','rightWrong');
     right.textContent = "Wrong!";
-    
+    questionStatus.classList.add('visible');
+    questionStatus.classList.remove('hide');
   }
   setTimeout(function () {
    
