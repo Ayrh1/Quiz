@@ -8,6 +8,7 @@ var scoreBoard = document.getElementById("scoreBoard");
 var prompts = document.getElementById("prompts");
 var choices = document.querySelector("#choices");
 var scoreDisplay = document.getElementById("scoreDisplay");
+var questionStatus = document.getElementById("questionStatus");
 var save = document.getElementById("save");
 
 var currentQuestionIndex = 0;  // --> we create and set an ITERATOR
@@ -67,6 +68,7 @@ var questions = [
 ]
 
 start.addEventListener("click", function(event) {
+  
   var element = event.target;
   if (element.matches("button") === true) { 
     start.classList.add('hide');
@@ -74,11 +76,21 @@ start.addEventListener("click", function(event) {
     question.classList.add('visible');
     question.classList.remove('hide');
     initQuestions()
+    choices.addEventListener("click", function(event) {
+      event.stopPropagation();
+      var element = event.target;
+      var index = element.getAttribute("data-choice");
+      
+      checkAnswer(index); 
+     
+    });
   }
 });
 
 function initQuestions(){
 
+  questionStatus.classList.add('hide');
+  questionStatus.classList.remove('visible');
   var currentQuestion = questions[currentQuestionIndex];
   var trueAnswer =  currentQuestion.correctAnswer; 
   choices.innerHTML ='';
@@ -94,36 +106,33 @@ function initQuestions(){
     li.appendChild(button);
     choices.appendChild(li);
   }
- 
-  choices.addEventListener("click", function(event) {
-
-    var element = event.target;
-    var index = element.getAttribute("data-choice");
-    
-    checkAnswer(index,trueAnswer); 
-   
-  });
   currentQuestionIndex++;
 
 }  
 
-function checkAnswer(index,trueAnswer) {
-  
+function checkAnswer(index) {
+  var currentQuestion = questions[currentQuestionIndex];
+  var trueAnswer =  currentQuestion.correctAnswer; 
   if(index === trueAnswer){
     var right = document.createElement("p");
-    question.appendChild(right);
+    questionStatus.innerHTML = '';
+    questionStatus.appendChild(right);
     right.setAttribute('id','rightWrong');
     right.textContent = "Right!";
+    questionStatus.classList.add('visible');
+    questionStatus.classList.remove('hide');
     score++;
     
   }else if(index !== trueAnswer){
     var right = document.createElement("p");
-    question.appendChild(right);
+    questionStatus.innerHTML = '';
+    questionStatus.appendChild(right);
     right.setAttribute('id','rightWrong');
     right.textContent = "Wrong!";
-    
+    questionStatus.classList.add('visible');
+    questionStatus.classList.remove('hide');
   }
-  setTimeout(function () {
+  var timeout = setTimeout(function () {
    
     if (currentQuestionIndex < questions.length) {
 
@@ -140,6 +149,7 @@ function checkAnswer(index,trueAnswer) {
     }
     
     right.classList.add('hide');
+    clearInterval(timeout);
 
   }, 600);
 }
