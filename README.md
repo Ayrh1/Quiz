@@ -13,7 +13,7 @@ Javascript Quiz game. Once user starts quiz. Users is asked a multiple choice qu
 
 ## Screenshot 
 
-![image](Asssets/Screenshot 2023-08-06 at 10.11.46 PM.png)
+![image](Asssets/image.png)
 
 ## Deployment link
 
