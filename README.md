@@ -17,7 +17,7 @@ Javascript Quiz game. Once user starts quiz. Users is asked a multiple choice qu
 
 ## Deployment link
 
-https://ayrh1.github.io/JS-PasswordGenerator/
+https://ayrh1.github.io/Quiz/
 
 ## Credits
 
