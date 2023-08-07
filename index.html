@@ -8,8 +8,8 @@
 </head>
 <body>
     <header id = "viewscores">
-        <div  >View Highscores</div>
-        <div class = "timer" >Time: 0</div>
+        <div><button class = "toScoreBtn" onclick = "board()">View Highscores</button></div>
+        <div><h3 id = "timer">Time: 0</h3></div>
     </header>
 
     <main>
@@ -30,20 +30,20 @@
         <div id = "questionStatus" class = "container hide">
 
         </div>
-        <div id = "finalScore" class = "container hide">
+        <div id = "getName" class = "container hide">
             <h2>You are Done!</h2>
             <h3 id = "scoreDisplay"></h3>
             <label class="text-right" for="name">Name:</label>
-            <input type="text" id="name" name="user-name">
-            <button  id="save" class = "button" type ="submit" >Submit</button>
+            <input type="text" id="name" name="user-name" placeholder = "Enter Name" >Enter Name</input>
+            <button class = "button" type ="submit" onclick = "getNames()">Submit</button>
         </div>
 
         <!--Score Board-->
         <div id = "scoreBoard" class = "container hide">
             <h2 class = "scoreDisplay" >High Scores</h2>
-            <ol></ol>
-            <button class = "button" >Go Back</button>
-            <button class = "button" >Clear Highscores</button>
+            <ol id ="scorePost"></ol>
+            <button class = "button" onclick = "begin()">Go Back</button>
+            <button class = "button" id = 'clear' >Clear Highscores</button>
         </div>
 
     </main>

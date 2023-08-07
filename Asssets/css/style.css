@@ -1,5 +1,6 @@
 body {
     font-family: Geneva, Verdana, sans-serif;
+   
 }
 
 main { 
@@ -15,6 +16,7 @@ header {
     font-size: 20px;
 }
 .container {
+ 
     text-align: center;
     margin: auto; /* This marging and width combination centered all the div's*/
     width: 50%;      
@@ -22,8 +24,8 @@ header {
 
 .button {
     width: fit-content;
-    height: 30px;
-    background-color: #3e82e1; 
+    height: fit-content;
+    background-color: black; 
     border-radius: 5px;
     font-size:  20px;
     color: white; 
@@ -31,6 +33,9 @@ header {
     margin-right: 10px;
     padding-left: 15px;
     padding-right: 15px;
+    font-weight: bold;
+    border: white 1px dashed;
+    
 } 
 
 li {
@@ -39,15 +44,16 @@ li {
 }
 
 li button { 
-    text-align: left;
-    width: 200px;
-    height: 25px;
-    background-color: #3e82e1; 
+    width: fit-content;
+    height: fit-content;
+    background-color: black; 
+    font-weight: bold;
     border-radius: 5px;
-    font-size:  15px;
+    font-size:  20px;
     color: white; 
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 10px;
+    border: white 1px dashed;
 }
 
 #rightWrong { 
@@ -73,3 +79,13 @@ h2, h3 {
     text-align: left;
 }
 
+.scoreDisplay{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.toScoreBtn{
+    border: none;
+    background: white;
+    font-size: 20px; 
+}

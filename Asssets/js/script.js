@@ -1,83 +1,92 @@
 
 var start = document.getElementById("start");
 var question = document.getElementById("question");
-var rightWrong = document.getElementById("rightWrong");
-var verification = document.getElementById("verification");
-var finalScore = document.getElementById("finalScore");
+var getName = document.getElementById("getName"); //change started here
 var scoreBoard = document.getElementById("scoreBoard");
 var prompts = document.getElementById("prompts");
 var choices = document.querySelector("#choices");
-var scoreDisplay = document.getElementById("scoreDisplay");
 var questionStatus = document.getElementById("questionStatus");
 var save = document.getElementById("save");
+var scoreDisplay = document.getElementById("scoreDisplay");
+var scorePost = document.getElementById("scorePost");
+var clear = document.getElementById("clear");
+var timer = document.getElementById("timer");
 
 var currentQuestionIndex = 0;  // --> we create and set an ITERATOR
 var score = 0;
- 
+var userCount = 0;
+var secondsLeft = 60; //timer
+
 var questions = [
   {
     prompt: "1.Which of the following keywords is used to define a variable in Javascript?",
-    answers: ["var","let","Both A and B","None of the above"],
+    answers: ["1) var","2) let","3) Both A and B","4) None of the above"],
     correctAnswer: "2",
-  },  
+  }, 
   {
     prompt: "2.Which of the following methods is used to access HTML elements using Javascript?",
-    answers: ["getElementbyId()","getElementByClassName()","Both A and B","None of the above"],
+    answers: ["1) getElementbyId()","2) getElementByClassName()","3) Both A and B","4) None of the above"],
     correctAnswer: "2",
   },
   {
     prompt: "3.Which of the following methods can be used to display data in some form using Javascript?",
-    answers: ["document.write()","console.log()","window.alert()","All of the above"],
+    answers: ["1) document.write()","2) console.log()","3) window.alert()","4) All of the above"],
     correctAnswer: "3",
   },
   {
     prompt: "4.Which function is used to serialize an object into a JSON string in Javascript?",
-    answers: ["stringify","parse()","convert()","None of the above"],
+    answers: ["1) stringify","2) parse()","3) convert()","4) None of the above"],
     correctAnswer: "0",
   },
   {
     prompt: "5.How do we write a comment in javascript?",
-    answers: ["<!-","//","#","$$"],
+    answers: ["1)    <!--","2)    //","3)    #","4)    $$"],
     correctAnswer: "1",
   },
   {
-    prompt: "6.Which of the following is not a Javascript framework?",
-    answers: ["Node","Vue","React","Cassandra"],
+    prompt: "6.What would be the output of the following code? \n   \n console.log(typeof null);",
+    answers: ["1) undefined","2) null","3) object","4) number"],
+    correctAnswer: "2",
+  },
+  {
+    prompt: "7.Which of the following Javascript data types is not primitive?",
+    answers: ["1) string","2) number","3) boolean","4) object"],
     correctAnswer: "3",
   },
   {
-    prompt: "7.Which of the following is not a Javascript framework?",
-    answers: ["Node","Vue","React","Cassandra"],
+    prompt: "8.What is the correct sytanx to write an array in Javasscript?",
+    answers: ["1) var = \"red\",\"blue\",\"green\"","2) Var colors =(1:\"red\",2:\"blue\",3:\"green\");","3) var colors = 1 = (\"red\"), 2 = (\"blue\"), 3 = (\"green\");","4) var colors = [\"red\", \"blue\", \"green\"];"],
     correctAnswer: "3",
   },
   {
-    prompt: "8.Which of the following is not a Javascript framework?",
-    answers: ["Node","Vue","React","Cassandra"],
-    correctAnswer: "3",
+    prompt: "9.In JavaScript, 'NaN' is equal to 'NaN'. (True/False)",
+    answers: ["1) True","2) False",],
+    correctAnswer: "1",
   },
   {
-    prompt: "9.Which of the following is not a Javascript framework?",
-    answers: ["Node","Vue","React","Cassandra"],
-    correctAnswer: "3",
-  },
-  {
-    prompt: "10.Which of the following is not a Javascript framework?",
-    answers: ["Node","Vue","React","Cassandra"],
-    correctAnswer: "3",
+    prompt: "10.JavaScript is a case-sensitive language. (True/False)",
+    answers: ["1) True","2) False",],
+    correctAnswer: "0",
   }
 ]
+
+
 
 start.addEventListener("click", function(event) {
   
   var element = event.target;
+  score = 0;
+
   if (element.matches("button") === true) { 
     start.classList.add('hide');
     start.classList.remove('visible');
     question.classList.add('visible');
     question.classList.remove('hide');
-    initQuestions()
+    initQuestions();
+    setTime();
+
     choices.addEventListener("click", function(event) {
-      event.stopPropagation();
+      //event.stopPropagation();
       var element = event.target;
       var index = element.getAttribute("data-choice");
       
@@ -87,10 +96,12 @@ start.addEventListener("click", function(event) {
   }
 });
 
+
 function initQuestions(){
 
   questionStatus.classList.add('hide');
   questionStatus.classList.remove('visible');
+
   var currentQuestion = questions[currentQuestionIndex];
   var trueAnswer =  currentQuestion.correctAnswer; 
   choices.innerHTML ='';
@@ -106,14 +117,14 @@ function initQuestions(){
     li.appendChild(button);
     choices.appendChild(li);
   }
-  currentQuestionIndex++;
-
+  
 }  
 
 function checkAnswer(index) {
   var currentQuestion = questions[currentQuestionIndex];
   var trueAnswer =  currentQuestion.correctAnswer; 
-  if(index === trueAnswer){
+  
+ if(index == trueAnswer){
     var right = document.createElement("p");
     questionStatus.innerHTML = '';
     questionStatus.appendChild(right);
@@ -131,9 +142,16 @@ function checkAnswer(index) {
     right.textContent = "Wrong!";
     questionStatus.classList.add('visible');
     questionStatus.classList.remove('hide');
+    secondsLeft = secondsLeft - 15;
+    
   }
+
+  
+
+  
   var timeout = setTimeout(function () {
-   
+
+    currentQuestionIndex++;
     if (currentQuestionIndex < questions.length) {
 
       initQuestions();
@@ -142,267 +160,161 @@ function checkAnswer(index) {
      
       question.classList.add('hide');
       question.classList.remove('visible');
-      finalScore.classList.add('visible');
-      finalScore.classList.remove('hide');
-      finalScores(score);
-
+      getName.classList.add('visible');
+      getName.classList.remove('hide');
+      scoreDisplay.textContent = "Final Score: " + score;
+     
     }
     
     right.classList.add('hide');
     clearInterval(timeout);
 
-  }, 600);
+  }, 400); // change back
+
+
+
 }
 
-function finalScores(score){
+function getNames(){
 // display score on div 
- var quizScore = score; 
-  scoreDisplay.textContent = "Final Score: " + quizScore;
 
+  var userName = document.getElementById("name").value;
+  var quizScore = score; 
+
+
+  var userScore = {
+    
+    user: ["User: " + userName],
+    finalScore: ["Score: " + quizScore],
+
+  }
+
+  localStorage.setItem("userScore", JSON.stringify(userScore));
+  
+  userCount++;
+
+  board();
 }
 
-save.addEventListener("click", function(event) {
-  event.preventDefault();
-  var name = document.querySelector("#name").value;
-  /*
-  if (name === "") {
-    prompt("error", "Name cannot be blank");
-  
-  } else {
-    displayMessage("success", "Registered successfully");
+var storedScores = JSON.parse(localStorage.getItem('storedScores')) || [];
 
-    localStorage.setItem("Name", name);
-    localStorage.setItem("Score", quizScore);
-   
-  }
-  */
-});
+function board(){
 
-
-
-//notes
-
-/*
-question.addEventListener("click", function(event) {
-  var element = event.target;
-  if (element.matches("button") === true) {
-     
-    question.classList.add('hide');
-    question.classList.remove('visible');
-    finalScore.classList.add('visible');
-    finalScore.classList.remove('hide');
-    
-  }
-  
-});
-
-question.addEventListener("click", function(event) {
-  var element = event.target;
-  prompt(element);
-}
-
-
-finalScore.addEventListener("click", function(event) {
-  var element = event.target;
-  if (element.matches("button") === true) {
-    
-    finalScore.classList.add('hide');
-    finalScore.classList.remove('visible');
-    scoreBoard.classList.add('visible');
-    scoreBoard.classList.remove('hide');
-    
-  }
-
-});
-
-*/
-
-/*
-
-HTML buttons
-
-<li><button id = "a">Answer A</button></li>
-<li><button id = "b">Answer B</button></li>
-<li><button id = "c">Answer C</button></li>
-<li><button id = "d">Answer D</button></li>
-
-var AnswerA = document.getElementById("a");
-var AnswerB = document.getElementById("b");
-var AnswerC = document.getElementById("c");
-var AnswerD = document.getElementById("d");
-var score = 0; 
-
-AnswerA.textContent = questions[1].answers.a; 
-AnswerB.textContent = questions[1].answers.b; 
-AnswerC.textContent = questions[1].answers.c; 
-AnswerD.textContent = questions[1].answers.d; 
-
-*/
-
-/*
-document.getElementById("question").classList.add('visible');
-
-document.getElementById("question").classList.remove('hide');
-
-question.classList.add('visible');
-
-question.classList.remove('hide');
-reminder: search classList**
-*/
-
-/*
-
-console.log(question); 
-
-
- if (choice.matches("button") === true) {
-      console.log(choice);
-    
-  }
-*/  
-
-/*
-
-console.log(questions[0].prompt); // prints the prompt of the first question
-console.log(questions[1].answers.b); // prints the 'b' answer of the second question
-console.log(questions[2].correctAnswer); // prints the correct answer of the third question
-
-  */
-
-
-
-/*
-var questions = [
-  {
-    prompt: "Which of the following keywords is used to define a variable in Javascript?",
-    answers: {
-      a: "var",
-      b: "let",
-      c: "Both A and B",
-      d: "None of the above",
-    },
-    correctAnswer: "c",
-  },  
-  {
-    prompt: "Which of the following methods is used to access HTML elements using Javascript?",
-    answers: {
-      a: "getElementbyId()",
-      b: "getElementByClassName()",
-      c: "Both A and B",
-      d: "None of the above",
-    },
-    correctAnswer: "c",
-  },
-  {
-    prompt: "Which of the following methods can be used to display data in some form using Javascript?",
-    answers: {
-      a: "document.write()",
-      b: "console.log()",
-      c: "window.alert()",
-      d: "All of the above",
-    },
-    correctAnswer: "d",
-  },
-  {
-    prompt: "Which function is used to serialize an object into a JSON string in Javascript?",
-    answers: {
-      a: "stringify",
-      b: "parse()",
-      c: "convert()",
-      d: "None of the above",
-    },
-    correctAnswer: "a",
-  },
-  {
-    prompt: "How do we write a comment in javascript?",
-    answers: {
-      a: "<!-",
-      b: "//",
-      c: "#",
-      d: "$$",
-    },
-    correctAnswer: "b",
-  },
-  {
-    prompt: "Which of the following is not a Javascript framework?",
-    answers: {
-      a: "Node",
-      b: "Vue",
-      c: "React",
-      d: "Cassandra",
-    },
-    correctAnswer: "d",
-  },
-]
-*/
-
-/* tutor
-
-function initQuestions(){
-  // let's run some validation (global loop conditional statement)
-  if(currentQuestionIndex >= questions.length - 1) {
-    // run some exit code --> we show the form for initials/user input
-  }
-
-  // update the curretQuestion
-  var currentQuestion = questions[currentQuestionIndex]; // here we are taking a look at EACH OBJECT in our ARRAY
-
-  prompts.textContent = currentQuestion.prompt;  // currentQuestion = questions[currentQuestionIndex]
-  for(let i = 0; i < currentQuestion.answers.length; i++){
-    var li = document.createElement("li");
-    var button = document.createElement("button");
-    button.setAttribute("data-choice", i);
-    button.textContent = currentQuestion.answers[i];
-    
-    li.appendChild(button);
-    choices.appendChild(li);
-  }
- 
-
-} 
-
-
-
-
-  console.log(currentQuestion);
-  currentQuestionIndex = currentQuestionIndex + 1;   // 
-  console.log(currentQuestion);
-  if(currentQuestionIndex >= questions.length - 1) {
-    // exit logic code ...
-  } else {
-    // we continue with our code ....
-  }
-
-  //        iterator |   conditional statement  |  iterator update setatement
-  for(let iterator = 0; iterator < questions.length; iterator++) {
-    // code that runs in the loop
-    console.log(questions[iterator])
-  }
-
-
-
-
-
-  // let's run some validation (global loop conditional statement)
-  if(currentQuestionIndex >= questions.length - 1) {
-    start.classList.add('hide');
-    start.classList.remove('visible');
-    question.classList.add('visible');
-    question.classList.remove('hide');
-  }
-
-
- choices.innerHTML ='';
-
-
-  // let's run some validation (global loop conditional statement)
- if(currentQuestionIndex >= questions.length - 1) {
   question.classList.add('hide');
   question.classList.remove('visible');
+  start.classList.add('hide');
+  start.classList.remove('visible');
+  getName.classList.add('hide');
+  getName.classList.remove('visible');
+  scoreBoard.classList.add('visible');
+  scoreBoard.classList.remove('hide');
+  
+ 
+  // Retrieve previously stored scores from local storage
+ 
+  var currentUserScore = JSON.parse(localStorage.getItem("userScore"));
 
-  finalScore.classList.add('visible');
-  finalScore.classList.remove('hide');
+  console.log(currentUserScore);
+
+  // Check if there is a user score before adding it to the stored scores
+  if (currentUserScore) {
+    storedScores.push(currentUserScore);
+
+    // Save the updated 'storedScores' array to local storage as a JSON string
+    window.localStorage.setItem('storedScores', JSON.stringify(storedScores));
+  }
+
+  console.log(storedScores);
+  console.log(currentUserScore);
+
+  
+  sortScores();
+
 }
 
-*/
+function sortScores(){
 
+ // either get scores from localstorage or set to empty array
+ var storedScores = JSON.parse(window.localStorage.getItem('storedScores')) || [];
+
+ // sort highscores by score property in descending order
+ storedScores.sort(function (a, b) {
+  // Extract scores as numbers
+  var scoreA = Number(a.finalScore[0].replace('Score: ', ''));
+  var scoreB = Number(b.finalScore[0].replace('Score: ', ''));
+  
+  // Compare scores
+  return scoreB - scoreA;
+});
+
+scorePost.innerHTML = "";
+
+ for (var i = 0; i < storedScores.length; i += 1) {
+   // create li tag for each high score
+
+   var user = storedScores[i].user[0]; // Get the user's name
+   var finalScore = storedScores[i].finalScore[0]; // Get the final score
+
+    var display = document.createElement("li");
+    display.classList.add("item");
+    display.textContent = user + ' ' + finalScore;
+    display.setAttribute("style", " color:yellow; background: black; width: 400px; padding: 5px; font-weight: bold; margin-left: 35px; margin-top:4px; border: white solid dashed;");
+    scorePost.appendChild(display);
+    
+  }
+ 
+}
+
+// restarts application
+function begin(){
+ 
+  location.reload();
+
+}
+
+function clearLocalStorage(){
+  localStorage.removeItem('storedScores');
+  localStorage.removeItem('userScore');
+  
+}
+
+clear.addEventListener("click", function(event) {
+  var clear = event.target;
+  if (clear.matches("button") === true) {
+  
+    clearLocalStorage();
+    
+    board();
+  }
+ 
+});
+
+
+
+function setTime() {
+  var timerInterval = setInterval(function() {
+    secondsLeft--;
+
+    // Update the timer display
+    timer.textContent = "time: " + secondsLeft;
+
+    if (secondsLeft <= 0) {
+    
+      clearInterval(timerInterval);
+
+    
+      secondsLeft = 0;
+      timer.textContent = "time: " + secondsLeft;
+
+      question.classList.add('hide');
+      question.classList.remove('visible');
+      getName.classList.add('visible');
+      getName.classList.remove('hide');
+      scoreDisplay.textContent = "Final Score: " + score;
+    }
+  }, 1000);
+}
+
+function quizEnd(){
+
+}
